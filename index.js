@@ -16,6 +16,12 @@ function nextSequence() {
   // !Button sound effect
   playSound(randomColorPattern);
 
+  // !Increase level by 1
+  level++;
+
+  // !Change the title to level
+  $("h1").text("Level: " + level);
+
   // !Everytime we call (nextSequence) we reset the user pattern
   userClickPattern = [];
 }
@@ -33,6 +39,9 @@ $(document).keydown(function () {
 
 // !User pattern
 var userClickPattern = [];
+
+// !Level
+var level = 0;
 
 $(".btnColor").click(function () {
   if (start === true) {
@@ -80,6 +89,27 @@ function checkAnswer(currentLevel) {
       }, 1000);
     }
   } else {
-    console.log("Wrong!");
+    console.log("Wrong");
+
+    $("h1").text("Game Over, Press Any Key to Restart");
+
+    // Play the sound effect of that button
+    var audio = new Audio("./sounds/wrong.mp3");
+    audio.play();
+
+    $("body").css("background-color", "red");
+
+    setTimeout(function () {
+      $("body").css("background-color", "#1b1b1b");
+    }, 1000);
+
+    startOver();
   }
+}
+
+// !Reset all value for new game
+function startOver() {
+  gamePattern = [];
+  start = false;
+  level = 0;
 }
